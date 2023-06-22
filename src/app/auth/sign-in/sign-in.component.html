@@ -1,2 +1,51 @@
-<H1>jsjfj</H1>
+<div class="sign-in">
+  <div class="sign-in-content mat-elevation-z3">
+    
+    <div class="sign-in-content-upps">
+      <span>Авторизация</span>
 
+    </div>
+    
+    <div class="sign-in-content-account" fxLayout="row" fxLayoutGap="4px">
+      <span>У вас нет аккаунта?</span>
+      <a href="#">зарегистрироваться</a>
+
+    </div>
+
+      <div fxLayout="column" class="sign-in-content-email">
+        <span>Email*</span>
+
+        <form>
+          <mat-form-field appearance="outline">
+            <input matInput placeholder="pat@example.com" [formControl]="email" required>
+            <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+          </mat-form-field>
+        </form>
+      
+      </div>
+
+      <div fxLayout="column" class="sign-in-content-password">
+        <span>Password*</span>
+
+        <form>
+          <mat-form-field appearance="outline">
+            <input matInput [type]="hide ? 'password' : 'text'">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+          </mat-form-field>
+        </form>
+
+      </div>
+
+      <div class="sign-in-content-forgot" fxLayout="row" fxLayoutAlign="space-between center">
+        <mat-checkbox class="example-margin">Запомнить меня</mat-checkbox>
+        <a class="section-hr" href="">забыли пароль? </a>
+
+      </div>
+
+      <div class="sign-in-content-signin">
+        <button [routerLink]="['/module/auth/posts']" mat-raised-button  color="primary" type="submit">Войти</button>
+      </div>
+  </div>
+</div>

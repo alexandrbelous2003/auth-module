@@ -4,6 +4,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { AuthMaterialModule } from './auth-material.module';
 import { AuthRoutingModule } from './auth-routing.module';
 import { PostsComponent } from './posts/posts.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -14,6 +15,7 @@ import { PostsComponent } from './posts/posts.component';
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     AuthMaterialModule,
     AuthRoutingModule
   ]
