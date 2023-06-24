@@ -5,17 +5,17 @@ import { SignInComponent } from './auth/sign-in/sign-in.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'module/auth/sign-in',
+    redirectTo: 'auth/sign-in',
     pathMatch: 'full'
   },
   {
-    path: 'module',
-    children: [
-      {
-      path: 'auth',
-      loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
-      }
-    ]
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
+  
+  },
+  {
+    path: 'posts',
+    loadChildren: () => import('./posts/posts.module').then(m => m.PostsModule)
   }
 ];
 
