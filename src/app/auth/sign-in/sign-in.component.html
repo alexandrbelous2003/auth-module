@@ -12,29 +12,26 @@
 
     </div>
 
+
+  <form [formGroup]="authForm" novalidate (ngSubmit)="onSubmit()">
       <div fxLayout="column" class="sign-in-content-email">
         <span>Email*</span>
 
-        <form>
           <mat-form-field appearance="outline">
-            <input matInput placeholder="pat@example.com" [formControl]="email" required>
-            <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+            <input matInput placeholder="pat@example.com" formControlName="email" required>
           </mat-form-field>
-        </form>
       
       </div>
 
       <div fxLayout="column" class="sign-in-content-password">
         <span>Password*</span>
 
-        <form>
           <mat-form-field appearance="outline">
-            <input matInput [type]="hide ? 'password' : 'text'">
+            <input matInput formControlName="password" [type]="hide ? 'password' : 'text'">
             <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
               <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
           </mat-form-field>
-        </form>
 
       </div>
 
@@ -43,9 +40,9 @@
         <a class="section-hr" href="">забыли пароль? </a>
 
       </div>
-
       <div class="sign-in-content-signin">
-        <button [routerLink]="['/module/auth/posts']" mat-raised-button  color="primary" type="submit">Войти</button>
+        <button type="submit" [disabled]="authForm.invalid" [routerLink]="['/posts/posts-list']" mat-raised-button  color="primary">Войти</button>
       </div>
+    </form>
   </div>
 </div>
