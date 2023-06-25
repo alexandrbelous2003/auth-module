@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { User } from './auth.interfaces';
+import { LoginForm, User } from './auth.interfaces';
 import { Router } from '@angular/router';
+import { EMPTY, Observable, delay, filter, first, from, iif, map, mergeMap, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class AuthService {
   constructor(private router: Router) { }
 
   register(email: string, password: string): boolean {
-    const users: User[] = JSON.parse(localStorage.getItem('users') || '[]');
+    const users: User[] = JSON.parse(localStorage.getItem('users') || JSON.stringify([]));
     const userExists = users.some((user) => user.email === email);
 
     if (userExists) {
@@ -28,18 +29,20 @@ export class AuthService {
     return true; 
   }
 
-  login(email: string, password: string): boolean {
-    const users: User[] = JSON.parse(localStorage.getItem('users') || '[]');
-    const user = users.find((u) => u.email === email && u.password === password);
-
-    if (!user) {
-      return false;
-    }
-
-    const token = this.generateToken();
-    localStorage.setItem(this.localStorageKey, token);
-
-    return true;
+  login({email, password}: {email: string | null,password: string | null }): Observable<boolean>{
+    return of(JSON.parse(localStorage.getItem('users') || JSON.stringify([]))).pipe(
+      first(), 
+      filter((users): users is Array<User> => !!users && Array.isArray(users)),
+      mergeMap((users) => 
+        iif(
+          () => !!email && !!password,
+          of(users.find((user: User) => user.email === (email as string) && user.password === password)),
+          EMPTY 
+        )
+      ),
+      map((user: User | undefined) => !!user), 
+      delay(250)
+    );
   }
 
   private generateToken(): string {

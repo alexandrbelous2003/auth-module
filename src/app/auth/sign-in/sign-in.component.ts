@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { LoginForm } from '../auth.interfaces';
+import { first } from 'rxjs';
 
 @Component({
   selector: 'app-sign-in',
@@ -15,11 +17,11 @@ export class SignInComponent {
   errorMessage: string = '';
   hide = true;
 
-  constructor(private formBuilder: FormBuilder, private router: Router,  private authService: AuthService){
-      this.Form = this.formBuilder.group({
-        email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required]]
-      });
+  constructor(private router: Router,  private authService: AuthService){
+      this.Form = new FormGroup<LoginForm>({
+        email: new FormControl<string | null>('a@gmail.com',[ Validators.required, Validators.email]),
+        password: new FormControl<string | null>('123456', [Validators.required]),
+    });
   }
 
   toggleAuthMode() {
@@ -28,15 +30,16 @@ export class SignInComponent {
   }
 
   login() {
-    const email = this.Form.value.email;
-    const password = this.Form.value.password;
-
-    const loginSuccessful = this.authService.login(email, password);
-
-    if (loginSuccessful) {
-      this.router.navigate(['/posts']);
-    } else {
-      this.errorMessage = 'Неверный email или password.';
-    }
+    this.authService.login(this.Form.value).pipe(
+      first(),
+    ).subscribe({
+      next: (result) => {
+        if (result) {
+            this.router.navigate(['/posts']);
+          } else {
+            this.errorMessage = 'Неверный email или password.';
+          }
+      }
+    })
   }
 }
