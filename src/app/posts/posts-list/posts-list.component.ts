@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { PostsService } from '../posts.service';
 import { AuthService } from 'src/app/auth/auth.service';
-import { Post } from '../posts.interfaces';
 
 @Component({
   selector: 'app-posts-list',
