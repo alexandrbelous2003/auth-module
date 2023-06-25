@@ -2,18 +2,30 @@
   <div class="sign-in-content mat-elevation-z3">
     
     <div class="sign-in-content-upps">
-      <span>Авторизация</span>
+      <span>Регистрация</span>
 
     </div>
     
     <div class="sign-in-content-account" fxLayout="row" fxLayoutGap="4px">
-      <span>У вас нет аккаунта?</span>
-      <a href="/auth/sign-up">зарегистрироваться</a>
+      <span>У вас есть аккаунт?</span>
+      <a href="/auth/sign-in">Войти</a>
 
     </div>
 
 
   <form *ngIf="!isRegister" [formGroup]="Form" novalidate>
+    <div fxLayout="column" class="sign-in-content-user">
+      <span>User name*</span>
+
+        <mat-form-field appearance="outline">
+          <input type="text" matInput formControlName="userName" required>
+          <mat-error *ngIf="Form.get('userName')?.hasError('required')">
+            User name <strong>обязательное поле</strong>
+          </mat-error>
+        </mat-form-field>
+    
+    </div>
+
       <div fxLayout="column" class="sign-in-content-email">
         <span>Email*</span>
 
@@ -44,19 +56,14 @@
 
       </div>
 
-      <div class="sign-in-content-forgot" fxLayout="row" fxLayoutAlign="space-between center">
-        <mat-checkbox class="example-margin">Запомнить меня</mat-checkbox>
-        <a class="section-hr" href="">забыли пароль? </a>
-
-      </div>
-
       <mat-error *ngIf="errorMessage">
         <p>{{ errorMessage }}</p>
       </mat-error>
-      
+
       <div class="sign-in-content-signin">
-        <button type="submit" [disabled]="Form.invalid" mat-raised-button  color="primary" (click)="login()">Войти</button>
+        <button type="submit" [disabled]="Form.invalid" mat-raised-button  color="primary" (click)="register()">Зарегистрироваться</button>
       </div>
     </form>
   </div>
 </div>
+

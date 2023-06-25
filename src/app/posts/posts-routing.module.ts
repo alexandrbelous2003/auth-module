@@ -15,15 +15,7 @@ const routes: Routes = [
   {
     path: ':id',
     component: PostsItemComponent
-  },
-  // {
-  //   path: 'posts',
-  //   loadChildren: () => import('./posts-list/posts-list-routing.module').then(m => m.PostsListRoutingModule)
-  // },
-  // {
-  //   path: 'posts-id',
-  //   loadChildren: () => import('./posts-item/posts-ltem-routing.module').then(m => m.PostsItemRoutingModule)
-  // }
+  }
 ];
 
 @NgModule({

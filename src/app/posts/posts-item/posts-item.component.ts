@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { EMPTY, switchMap } from 'rxjs';
 import { Post } from '../posts.interfaces';
 import { PostsService } from '../posts.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 
 @Component({
@@ -13,7 +14,7 @@ import { PostsService } from '../posts.service';
 export class PostsItemComponent {
   post?: Post;
 
-  constructor(private route: ActivatedRoute,private postIdService: PostsService) {}
+  constructor(private route: ActivatedRoute,private postIdService: PostsService, private authService: AuthService) {}
 
   ngOnInit() {
     this.route.paramMap.pipe(switchMap((paramMap) => {
@@ -24,5 +25,9 @@ export class PostsItemComponent {
         this.post = data;
       }
     })
+  }
+
+  logout(): void {
+    this.authService.logout();
   }
 }
