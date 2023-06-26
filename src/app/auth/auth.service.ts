@@ -11,22 +11,27 @@ export class AuthService {
 
   constructor(private router: Router) { }
 
-  register(email: string, password: string): boolean {
-    const users: User[] = JSON.parse(localStorage.getItem('users') || JSON.stringify([]));
-    const userExists = users.some((user) => user.email === email);
-
-    if (userExists) {
-      return false;
-    }
-
-    const newUser: User = { email, password };
-    users.push(newUser);
-    localStorage.setItem('users', JSON.stringify(users));
-
-    const token = this.generateToken();
-    localStorage.setItem(this.localStorageKey, token);
-
-    return true; 
+  register({email, password}: { email: string | null, password: string | null}): Observable<boolean>{
+    return of(JSON.parse(localStorage.getItem('users') || JSON.stringify([]))).pipe(
+      first(),
+      filter((users): users is User[] => Array.isArray(users)),
+      mergeMap((users: User[]) => {
+        const userExists = users.some((user) => user.email === email);
+        if (userExists) {
+          return of(false);
+        }
+  
+        const newUser: User = { email: email as string, password: password as string };
+        users.push(newUser);
+        localStorage.setItem('users', JSON.stringify(users));
+  
+        const token = this.generateToken();
+        localStorage.setItem(this.localStorageKey, token);
+  
+        return of(true);
+      }),
+      delay(250)
+    );
   }
 
   login({email, password}: {email: string | null,password: string | null }): Observable<boolean>{

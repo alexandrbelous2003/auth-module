@@ -9,3 +9,9 @@ export interface LoginForm {
   email: FormControl<string | null>
   password: FormControl<string | null>
 }
+
+export interface AuthForm {
+  userName: FormControl<string | null>
+  email: FormControl<string | null>
+  password: FormControl<string | null>
+}

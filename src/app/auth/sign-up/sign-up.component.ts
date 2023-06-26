@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { first } from 'rxjs';
+import { AuthForm } from '../auth.interfaces';
 
 @Component({
   selector: 'app-sign-up',
@@ -15,11 +17,11 @@ export class SignUpComponent {
   errorMessage: string = '';
   hide = true;
 
-  constructor(private formBuilder: FormBuilder, private router: Router,  private authService: AuthService) {
-    this.Form = this.formBuilder.group({
-      userName: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['',[Validators.required]]
+  constructor(private router: Router,  private authService: AuthService) {
+    this.Form = new FormGroup<AuthForm>({
+      userName: new FormControl<string | null>('', [Validators.required]),
+      email: new FormControl<string | null>('',[ Validators.required, Validators.email]),
+      password: new FormControl<string | null>('', [Validators.required]),
     });
   }
 
@@ -29,15 +31,16 @@ export class SignUpComponent {
   }
 
   register() {
-    const email = this.Form.value.email;
-    const password = this.Form.value.password;
-
-    const registrationSuccessful = this.authService.register(email, password);
-
-    if (registrationSuccessful) {
-      this.router.navigate(['/posts']);
-    } else {
-      this.errorMessage = 'Email уже занят.';
-    }
+    this.authService.register(this.Form.value).pipe(
+      first(),
+    ).subscribe({
+      next: (result) => {
+        if (result) {
+            this.router.navigate(['/posts']);
+          } else {
+            this.errorMessage = 'Email уже занят.';
+          }
+      }
+    })
   }
 }
