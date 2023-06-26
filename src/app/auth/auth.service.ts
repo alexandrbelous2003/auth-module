@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LoginForm, User } from './auth.interfaces';
 import { Router } from '@angular/router';
-import { EMPTY, Observable, delay, filter, first, from, iif, map, mergeMap, of, tap } from 'rxjs';
+import { EMPTY, Observable, delay, filter, first, iif, map, mergeMap, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +46,11 @@ export class AuthService {
         )
       ),
       map((user: User | undefined) => !!user), 
+      tap((login) => {
+        if(login) {
+          localStorage.setItem(this.localStorageKey, this.generateToken());
+        }
+      }),
       delay(250)
     );
   }
@@ -60,6 +65,10 @@ export class AuthService {
     }
 
     return token;
+  }
+
+  loggedIn(){
+    return !!localStorage.getItem(this.localStorageKey);
   }
 
   logout(): void {
