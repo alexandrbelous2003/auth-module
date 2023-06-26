@@ -17,7 +17,9 @@ import { MatInputModule } from '@angular/material/input';
     MatFormFieldModule,
     MatToolbarModule,
     MatIconModule,
-    MatInputModule
+    MatInputModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
 })
 export class AuthMaterialModule {}

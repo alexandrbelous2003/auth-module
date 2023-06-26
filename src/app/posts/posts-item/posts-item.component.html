@@ -8,7 +8,7 @@
 
 </mat-toolbar>
 
-<div class="card" *ngIf="post">
+<div class="card" *ngIf="post$ | async; let post">
   <h2>№ {{post.id}}</h2>
   <h3><b>Id пользователя:  {{ post.userId }}</b></h3>
   <h3>{{ post.title }}</h3>

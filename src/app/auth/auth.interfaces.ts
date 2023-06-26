@@ -1,7 +1,15 @@
 import { FormControl } from "@angular/forms"
 
 export interface User {
+  /** 
+   * Уникальный  email
+   * @example a@gmail.com
+  */
   email: string 
+  /** 
+   * Пароль
+   * @example 123456
+  */
   password: string
 }
 

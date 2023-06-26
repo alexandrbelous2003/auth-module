@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { EMPTY, switchMap } from 'rxjs';
+import { Observable, filter, map, switchMap } from 'rxjs';
 import { Post } from '../posts.interfaces';
 import { PostsService } from '../posts.service';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -9,22 +9,28 @@ import { AuthService } from 'src/app/auth/auth.service';
 @Component({
   selector: 'app-posts-id',
   templateUrl: './posts-item.component.html',
-  styleUrls: ['./posts-item.component.scss']
+  styleUrls: ['./posts-item.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostsItemComponent {
-  post?: Post;
+  /** Поток выбранных постовы */
+  public post$!: Observable<Post>;
 
   constructor(private route: ActivatedRoute,private postIdService: PostsService, private authService: AuthService) {}
 
   ngOnInit() {
-    this.route.paramMap.pipe(switchMap((paramMap) => {
-      const id = paramMap.get('id');
-      return !Number.isNaN(id) ? this.postIdService.getPostById(Number(id)) : EMPTY;
-    })).subscribe((data: Post | never)  => {
-      if (data) {
-        this.post = data;
-      }
-    })
+    this.post$ = this.route.paramMap.pipe(
+      map((paramMap) => paramMap.get('id')),
+      map((idAsString) => {
+        if(!Number.isNaN(idAsString)){
+          return Number(idAsString)
+        } else {
+          return null
+        }
+      }),
+      filter((id): id is number => !!id && typeof id === 'number'),
+      switchMap((id) => this.postIdService.getPostById(id))
+    );
   }
 
   logout(): void {

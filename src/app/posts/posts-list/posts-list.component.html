@@ -8,7 +8,7 @@
 
 </mat-toolbar>
 
-<div class="card" *ngFor="let post of posts">
+<div class="card" *ngFor="let post of (posts$ | async)">
   <a [routerLink]="['/posts', post.id]"><h2>№ {{post.id}}</h2></a>
   <h3><b>Id пользователя:  {{ post.userId }}</b></h3>
   <h3>{{ post.title }}</h3>

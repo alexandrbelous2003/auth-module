@@ -1,24 +1,23 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { PostsService } from '../posts.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { Post } from '../posts.interfaces';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-posts-list',
   templateUrl: './posts-list.component.html',
-  styleUrls: ['./posts-list.component.scss']
+  styleUrls: ['./posts-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostsListComponent {
-  posts: any;
-
+  
+  /** Список постов */
+  posts$: Observable<Array<Post>> = this.postsService.getData();
 
   constructor(private postsService: PostsService, private authService: AuthService) {}
 
-  ngOnInit() {
-    this.postsService.getData().subscribe(data => {
-      this.posts = data;
-    });
-  }
-
+  /** Метод вызывает в AuthService метод очистки токена */
   logout(): void {
     this.authService.logout();
   }

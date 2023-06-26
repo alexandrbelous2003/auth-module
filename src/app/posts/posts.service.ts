@@ -10,7 +10,7 @@ export class PostsService {
 
   constructor(private http: HttpClient) {}
 
-  getData(): Observable<Post> {
+  getData(): Observable<Array<Post>> {
     return this.http.get<any>('https://jsonplaceholder.typicode.com/posts');
   }
 
