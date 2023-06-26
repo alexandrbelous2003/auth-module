@@ -1,16 +1,9 @@
-<mat-toolbar color="primary">
-  <span>Отдельный пост</span>
-  <span class="logo-spacer"></span>
-  
-  <a mat-button (click)="logout()"><mat-icon>logout</mat-icon></a>
-
-  <a mat-button href="#"><mat-icon>person</mat-icon></a>
-
-</mat-toolbar>
-
-<div class="card" *ngIf="post$ | async; let post">
-  <h2>№ {{post.id}}</h2>
-  <h3><b>Id пользователя:  {{ post.userId }}</b></h3>
-  <h3>{{ post.title }}</h3>
-  <p>{{ post.body }}</p>
-</div>
+<app-tool-bar></app-tool-bar>
+<section>
+  <div class="card" *ngIf="post$ | async; let post">
+    <h2>№ {{post.id}}</h2>
+    <h3><b>Id пользователя:  {{ post.userId }}</b></h3>
+    <h3>{{ post.title }}</h3>
+    <p>{{ post.body }}</p>
+  </div>
+</section>

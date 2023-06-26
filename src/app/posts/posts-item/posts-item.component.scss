@@ -1,6 +1,8 @@
 :host {
-  .logo-spacer {
-    flex: 1 1 auto;
+  overflow: hidden;
+  section {
+    height: 100%;
+    overflow: auto;
   }
 
   .card {

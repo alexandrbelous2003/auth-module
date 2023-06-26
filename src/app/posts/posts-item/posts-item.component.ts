@@ -16,7 +16,7 @@ export class PostsItemComponent {
   /** Поток выбранных постовы */
   public post$!: Observable<Post>;
 
-  constructor(private route: ActivatedRoute,private postIdService: PostsService, private authService: AuthService) {}
+  constructor(private route: ActivatedRoute,private postIdService: PostsService) {}
 
   ngOnInit() {
     this.post$ = this.route.paramMap.pipe(
@@ -31,9 +31,5 @@ export class PostsItemComponent {
       filter((id): id is number => !!id && typeof id === 'number'),
       switchMap((id) => this.postIdService.getPostById(id))
     );
-  }
-
-  logout(): void {
-    this.authService.logout();
   }
 }

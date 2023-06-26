@@ -6,6 +6,7 @@ import { PostsListComponent } from './posts-list/posts-list.component';
 import { PostsItemComponent } from './posts-item/posts-item.component';
 import { PostsService } from './posts.service';
 import { HttpClientModule } from '@angular/common/http';
+import { ToolBarModule } from '../tool-bar/tool-bar.module';
 
 
 
@@ -19,7 +20,8 @@ import { HttpClientModule } from '@angular/common/http';
     CommonModule,
     PostsMaterialModule,
     PostsRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ToolBarModule
   ],
   providers: [
     PostsService

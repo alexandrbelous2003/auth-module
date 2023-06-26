@@ -15,10 +15,5 @@ export class PostsListComponent {
   /** Список постов */
   posts$: Observable<Array<Post>> = this.postsService.getData();
 
-  constructor(private postsService: PostsService, private authService: AuthService) {}
-
-  /** Метод вызывает в AuthService метод очистки токена */
-  logout(): void {
-    this.authService.logout();
-  }
+  constructor(private postsService: PostsService) {}
 }
